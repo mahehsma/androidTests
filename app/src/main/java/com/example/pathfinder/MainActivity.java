@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private String pathToThisElement = "element"; //rename to sdcard
+    private final String pathToThisElement = "element"; //rename to sdcard
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +27,12 @@ public class MainActivity extends AppCompatActivity {
     private void searchPath(){
         Toast.makeText(getApplicationContext(),R.string.startingSearch, Toast.LENGTH_SHORT).show();
         PathFinder pathFinder = new PathFinder();
-        String path = pathFinder.getPath(pathToThisElement);
-        setText(path);
+        try {
+            String path = pathFinder.getPath(pathToThisElement);
+            setText(path);
+        } catch (NoExternalStorageFoundException ex){
+            setText(R.string.noExternalStorageFound+"");
+        }
     }
 
     private void setText(String path){
